@@ -114,4 +114,4 @@ if __name__ == '__main__':
             res_group, res_cost = pso_run()
             end_time = time.time()
             f.write(f'No {i + 1}:\n')
-            f.write(f'result:\t{res_group}\ncost:\t{res_cost}\ntime:\t{time_end - time_start}\n')
+            f.write(f'result:\t{res_group}\ncost:\t{res_cost}\ntime:\t{end_time - start_time}\n')
