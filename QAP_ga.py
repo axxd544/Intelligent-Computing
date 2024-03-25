@@ -44,7 +44,7 @@ def mutatation_swap(individual, idx_1, idx_2):
 def ga_run_main(res_formula):
     global res_cost
     size_population = random.randint(2, 10000)  # 初始的种群大小
-    g_max = ceil(10000 * chromosome_len / size_population)  # 最大迭代层数
+    g_max = floor(10000 * chromosome_len / size_population)  # 最大迭代层数
     print("种群数量：", size_population)
     print("最大迭代层数:", g_max)
     # 初始种群大小 * 最大迭代层数 = 最大的候选解空间中解的个数
@@ -52,7 +52,7 @@ def ga_run_main(res_formula):
     size_pop = size_population
 
     solutions = np.zeros(g_max, dtype=np.int64)
-    total_evaluations = 0   # 记录比较 评价的次数
+    total_evaluations = 0   # 记录评价的次数
 
     num_crosses = ceil(size_pop / 2.0 * Pc)
     num_mutations = ceil(size_pop * length * Pm)
