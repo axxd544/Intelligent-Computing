@@ -1,22 +1,26 @@
-# -*- coding: utf-8 -*-
 import time
 import random
 from math import *
 import numpy as np
 
+# 初始化矩阵维度，距离矩阵，流量矩阵，最大迭代次数，初始种群规模
 n = 0
 dist_matrix = 0
 flow_matrix = 0
 generation_max = 0
-population = 50
+population = 0
+# 初始化惯性权重，个体认知因子，社会认知因子
 w = 1
 c1 = 0.75
 c2 = 0.75
+# 初始化全局最有解，全局最优成本
 best_group = float('inf')
 best_cost = float('inf')
 cal_evaluation = []
 particle_dict = {}
 
+
+# 读数据
 def read_data(file_dir):
     global n, dist_matrix, flow_matrix
     file = open(file_dir, 'r')
@@ -34,10 +38,12 @@ def read_data(file_dir):
     # print(n, dist_matrix, flow_matrix, generation_max)
 
 
+# 目标函数
 def cost(group):
     return sum(np.sum(flow_matrix * dist_matrix[group[:, None], group], 1))
 
 
+# 更新粒子的速度，a为当前位置，b为最佳位置
 def update_v(a, b):
     ans = []
     v = np.eye(len(a))
@@ -53,6 +59,7 @@ def update_v(a, b):
     return ans
 
 
+# 移动粒子，并更新全局最优解和成本
 def move():
     global best_cost, best_group
     total_evaluations = 0
@@ -97,6 +104,7 @@ def move():
 
 def pso_run():
     global best_cost, best_group, particle_dict, population, generation_max
+    # 初始化种群数量和迭代次数
     population = random.randint(2, 10000)
     generation_max = floor(10000 * n / population)
     print("种群数量：", population)
@@ -106,6 +114,7 @@ def pso_run():
     best_cost = float('inf')
     particle_dict = {}
     for i in range(population):
+        # 随机生成初始的分配方案
         group = np.random.permutation(n)
         particle_dict[i] = {"group": group, "cost": cost(group), "velocity": np.eye(n, dtype=int),
                             "best": group, "best_cost": cost(group)}
@@ -125,6 +134,7 @@ def pso_run():
 
 
 if __name__ == '__main__':
+    # 最终结果
     cal_group = []
     cal_cost = 2147483647
     cal_time = []

@@ -2,6 +2,7 @@
 import time
 import numpy as np
 
+# 初始化矩阵维度，距离矩阵，流量矩阵，最大迭代层数，退货速率，初始温度
 n = 0
 dist_matrix = 0
 flow_matrix = 0
@@ -11,6 +12,7 @@ temp = 1000.0
 cal_evaluation = []
 
 
+# 读数据
 def read_data(file_dir):
     global n, dist_matrix, flow_matrix, generation_max
     file = open(file_dir, 'r')
@@ -24,14 +26,16 @@ def read_data(file_dir):
         flows.append(list(map(int, lines[i + n].split())))
     dist_matrix = np.array(distances)
     flow_matrix = np.array(flows)
-    generation_max = n * 1000
+    generation_max = n * 1000   # 设置最大迭代层数
     # print(n, dist_matrix, flow_matrix, generation_max)
 
 
+# 目标函数
 def cost(group):
     return sum(np.sum(flow_matrix * dist_matrix[group[:, None], group], 1))
 
 
+# 计算接受概率
 def acceptance_probability(old_cost, new_cost, T):
     if new_cost < old_cost:
         return 1.0
@@ -44,7 +48,7 @@ def sa_run():
     temp = 1000.0
     it = 0
     evaluation_count = 0
-    solution = np.random.permutation(n)
+    solution = np.random.permutation(n) # 随机生成初始的分配方案
     while temp > 0.05:
         for i in range(generation_max):
             new_solution = np.copy(solution)
@@ -52,9 +56,9 @@ def sa_run():
             new_solution[idx1], new_solution[idx2] = new_solution[idx2], new_solution[idx1]
             ap = acceptance_probability(cost(solution), cost(new_solution), temp)
             evaluation_count += 1
-            if ap >= np.random.rand():
+            if ap >= np.random.rand():  # 根据计算出的概率决定是否接受新解
                 solution = new_solution
-        temp *= cooling_rate
+        temp *= cooling_rate    # 降温
         it += 1
         # if it == generation_max-1:
     print("共迭代{}次，最优位置为{}，最优值为{}".format(it, solution, cost(solution)))

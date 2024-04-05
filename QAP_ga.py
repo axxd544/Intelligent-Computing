@@ -3,6 +3,7 @@ import random
 import time
 from math import *
 
+# 最终结果
 res_parent = []
 res_count = []
 res_time = []
@@ -130,6 +131,7 @@ def ga_run_main(res_formula):
     return parents[0]["chromosm"], parents[0]["cost"]
 
 
+# 计算染色体变异之后的函数值
 def mutation_cost(current_chromosom, current_cost, idx_1, idx_2):
     new_chromosom = np.copy(current_chromosom)
     new_chromosom[idx_1], new_chromosom[idx_2] = new_chromosom[idx_2], new_chromosom[idx_1]
@@ -152,6 +154,7 @@ def mutation_cost(current_chromosom, current_cost, idx_1, idx_2):
     return mutationCost
 
 
+# 目标函数
 def cost(chromosome):
     return sum(np.sum(flow_matrix * dist_matrix[chromosome[:, None], chromosome], 1))
 
