@@ -3,7 +3,7 @@ import time
 import numpy as np
 from deap import base, creator, tools, algorithms
 
-n = 50  # 变量个数
+n = 100  # 变量个数
 cal_min = 1 << 32
 cal_solution = 0
 cal_time = []
@@ -45,12 +45,12 @@ def main():
     global cal_min
     global cal_solution
     population_size = 50    # 种群大小
-    generations = 100000    # 迭代次数
+    generations = 200 * n    # 迭代次数
     mutation_rate = 0.1     # 变异率
 
     pop = toolbox.population(n=population_size)     # 生成初始种群
     hof = tools.HallOfFame(1)   # 记录一个最优个体
-    stats = tools.Statistics(lambda ind: ind.fitness.values)    # 创建通缉对象
+    stats = tools.Statistics(lambda ind: ind.fitness.values)    # 创建统计对象
     stats.register("min", np.min)
 
     # 运行遗传算法
@@ -70,7 +70,7 @@ def main():
 
 
 if __name__ == "__main__":
-    for i in range(1):
+    for i in range(10):
         print("-------------第", i, "次运行-----------------")
         start_time = time.time()
         main()

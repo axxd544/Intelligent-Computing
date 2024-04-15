@@ -10,7 +10,6 @@ cal_time = []
 
 # 定义函数
 def objective_function(x):
-    # n = len(x)
     sum1 = np.sum(np.array(x) ** 2 / 4000)
     sum2 = np.prod(np.cos(np.array(x) / np.sqrt(np.arange(1, n + 1))))
     return sum1 - sum2 + 1
@@ -18,7 +17,6 @@ def objective_function(x):
 
 # 定义梯度函数
 def gradient(x):
-    # n = len(x)
     grad = np.zeros_like(x)
     for i in range(n):
         sum_cos = np.sum(np.cos(x[:i + 1] / np.sqrt(np.arange(1, i + 2))))

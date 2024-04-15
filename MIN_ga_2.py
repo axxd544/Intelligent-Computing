@@ -14,7 +14,6 @@ creator.create("Individual", list, fitness=creator.FitnessMin)
 
 # 定义函数
 def objective_function(individual):
-    n = len(individual)
     sum1 = np.sum(np.array(individual) ** 2 / 4000)
     sum2 = np.prod(np.cos(np.array(individual) / np.sqrt(np.arange(1, n + 1))))
     return sum1 - sum2 + 1,
@@ -35,14 +34,14 @@ def main():
     global cal_min
     global cal_solution
     population_size = 50
-    generations = 2000
+    generations = 200 * n
     mutation_rate = 0.1
 
     pop = toolbox.population(n=population_size)
     hof = tools.HallOfFame(1)
 
     algorithms.eaMuPlusLambda(pop, toolbox, mu=population_size, lambda_=population_size,
-                              cxpb=0.7, mutpb=mutation_rate, ngen=generations,
+                              cxpb=0.5, mutpb=mutation_rate, ngen=generations,
                               stats=None, halloffame=hof, verbose=False)
 
     best_solution = hof[0]
